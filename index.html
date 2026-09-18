@@ -33,7 +33,7 @@
   <link
     rel="icon"
     type="image/png"
-    href="./favicon.png"
+    href="./assets/favicon.png"
   >
 
 
@@ -80,6 +80,344 @@
       document.getElementById(
         "edge-layer"
       );
+
+
+    const languageToggle =
+      document.getElementById(
+        "language-toggle"
+      );
+
+
+    const metaDescription =
+      document.querySelector(
+        'meta[name="description"]'
+      );
+
+
+    const pageMetadata = {
+
+      ko: {
+        title:
+          "자율주행 휠체어 월드 모델 아키텍처",
+        description:
+          "센서 입력부터 인지, 특징 공학, 통합 월드 모델, 위험도 평가 및 디지털 트윈까지의 전체 구조를 인터랙티브 다이어그램으로 시각화한 프로젝트입니다."
+      },
+
+      en: {
+        title:
+          "Autonomous Wheelchair World Model Architecture",
+        description:
+          "An interactive architecture diagram covering the complete pipeline from sensor inputs and perception to feature engineering, an integrated world model, risk assessment, and a digital twin."
+      }
+
+    };
+
+
+    const translations = {
+
+      "자율주행 휠체어 월드 모델 아키텍처":
+        "Autonomous Wheelchair World Model Architecture",
+      "센서 입력부터 인지, 특징 공학, 통합 월드 모델, 위험도 평가 및 디지털 트윈까지의 전체 구조":
+        "End-to-end architecture from sensor inputs and perception to feature engineering, an integrated world model, risk assessment, and a digital twin",
+      "PNG 내보내기":
+        "Export PNG",
+      "SVG 내보내기":
+        "Export SVG",
+      "1. 센서 입력":
+        "1. Sensor Inputs",
+      "2. 인지 출력":
+        "2. Perception Outputs",
+      "3. 월드 모델용 특징 공학":
+        "3. Feature Engineering for the World Model",
+      "4. 월드 모델 출력":
+        "4. World Model Outputs",
+      "5. 디지털 트윈":
+        "5. Digital Twin",
+      "스테레오 카메라":
+        "Stereo Camera",
+      "라이다":
+        "LiDAR",
+      "초음파 센서":
+        "Ultrasonic Sensors",
+      "관성측정장치":
+        "IMU",
+      "위성항법장치":
+        "GNSS",
+      "장애물 탐지":
+        "Obstacle Detection",
+      "보행로 분할":
+        "Walkway Segmentation",
+      "노면 재질":
+        "Surface Material",
+      "노면 상태 분류":
+        "Surface Condition Classification",
+      "포트홀 탐지":
+        "Pothole Detection",
+      "장애물 좌표 · 거리":
+        "Obstacle Coordinates · Distance",
+      "장애물 상대속도":
+        "Obstacle Relative Velocity",
+      "상대거리 변화량":
+        "Relative Distance Change",
+      "통과 가능 폭":
+        "Passable Width",
+      "단차":
+        "Level Difference",
+      "근거리 거리":
+        "Short-Range Distance",
+      "지면-차체 높이":
+        "Ground-to-Chassis Height",
+      "차량 속도":
+        "Vehicle Speed",
+      "노면 재질 범주 분류":
+        "Surface Material Category",
+      "노면 거칠기":
+        "Surface Roughness",
+      "차량 6축 상태":
+        "6-Axis Vehicle State",
+      "서지 · 스웨이 · 히브":
+        "Surge · Sway · Heave",
+      "롤 · 피치 · 요":
+        "Roll · Pitch · Yaw",
+      "위치":
+        "Location",
+      "경도 · 위도":
+        "Longitude · Latitude",
+      "바닥 위 정적 객체":
+        "Static Objects on the Ground",
+      "정적 장애물 상태":
+        "Static Obstacle State",
+      "거리 · 상대속도 · 신뢰도 · 좌표":
+        "Distance · Relative Velocity · Confidence · Coordinates",
+      "바닥 위 동적 객체":
+        "Dynamic Objects on the Ground",
+      "동적 장애물 상태":
+        "Dynamic Obstacle State",
+      "보행로 분할 및 폭 추정":
+        "Walkway Segmentation & Width Estimation",
+      "노면":
+        "Road Surface",
+      "포트홀":
+        "Pothole",
+      ": 좌표 · 크기":
+        ": Coordinates · Size",
+      "노면 돌출부":
+        "Surface Protrusion",
+      "노면 재질 · 상태 분류":
+        "Surface Material · Condition Classification",
+      "장치":
+        "Vehicle System",
+      "위성항법 위치":
+        "GNSS Position",
+      "속도 · 가속도 · 방향":
+        "Speed · Acceleration · Heading",
+      "서지 · 스웨이 · 히브 · 롤 · 피치 · 요":
+        "Surge · Sway · Heave · Roll · Pitch · Yaw",
+      "통합 월드 모델":
+        "Integrated World Model",
+      "바닥 위 정적 객체 · 바닥 위 동적 객체 · 노면 · 장치 상태를 통합하여":
+        "Integrates static and dynamic ground objects, road surface, and vehicle state",
+      "현재 환경과 차량 상태를 실시간 표현":
+        "Real-Time Representation of the Environment and Vehicle",
+      "위험도 점수":
+        "Risk Score",
+      "정적 점수":
+        "Static Score",
+      "동적 · 실시간 점수":
+        "Dynamic · Real-Time Score",
+      "통과 가능 여부":
+        "Passability",
+      "경로 탐색":
+        "Path Planning",
+      "가상 세계":
+        "Virtual World",
+      "실제 세계와 동일한 비율로 생성":
+        "Built at the Same Scale as the Real World",
+      "물체 클래스 분류":
+        "Object Class Classification",
+      "가상 세계에 존재하는":
+        "Objects in the Virtual World",
+      "물체 종류 및 영역 정보":
+        "Object Types and Region Data",
+      "테스트 장애물 생성":
+        "Test Obstacle Generation",
+      "정적 장애물":
+        "Static Obstacles",
+      "동적 장애물":
+        "Dynamic Obstacles",
+      "가상 휠체어":
+        "Virtual Wheelchair",
+      "가상 세계에서 동작하는":
+        "Operating in the Virtual World",
+      "휠체어 에이전트":
+        "Wheelchair Agent",
+      "테스트 베드":
+        "Test Bed",
+      "다양한 조건에서 학습 및 검증":
+        "Training and Validation Under Diverse Conditions"
+
+    };
+
+
+    const translationTargets = [];
+
+
+    let currentLanguage =
+      "ko";
+
+
+    function collectTranslationTargets() {
+
+      const walker =
+        document.createTreeWalker(
+          document.querySelector(
+            ".page"
+          ),
+          NodeFilter.SHOW_TEXT
+        );
+
+
+      while (
+        walker.nextNode()
+      ) {
+
+        const node =
+          walker.currentNode;
+
+
+        const koreanText =
+          node.nodeValue.trim();
+
+
+        if (
+          translations[
+            koreanText
+          ]
+        ) {
+
+          translationTargets.push(
+            {
+              node,
+              ko: koreanText,
+              en: translations[
+                koreanText
+              ]
+            }
+          );
+
+        }
+
+      }
+
+    }
+
+
+    function setTranslatedText(
+      target,
+      language
+    ) {
+
+      const value =
+        target.node.nodeValue;
+
+
+      const leadingWhitespace =
+        value.match(
+          /^\s*/
+        )[0];
+
+
+      const trailingWhitespace =
+        value.match(
+          /\s*$/
+        )[0];
+
+
+      target.node.nodeValue =
+        leadingWhitespace +
+        target[
+          language
+        ] +
+        trailingWhitespace;
+
+    }
+
+
+    function applyLanguage(
+      language
+    ) {
+
+      currentLanguage =
+        language;
+
+
+      translationTargets.forEach(
+        target => {
+
+          setTranslatedText(
+            target,
+            language
+          );
+
+        }
+      );
+
+
+      document.documentElement.lang =
+        language;
+
+
+      document.title =
+        pageMetadata[
+          language
+        ].title;
+
+
+      metaDescription.content =
+        pageMetadata[
+          language
+        ].description;
+
+
+      languageToggle.textContent =
+        language === "ko"
+          ? "ENG"
+          : "KOR";
+
+
+      languageToggle.setAttribute(
+        "aria-label",
+        language === "ko"
+          ? "Switch to English"
+          : "한국어로 전환"
+      );
+
+
+      localStorage.setItem(
+        "wheelchair-diagram-language",
+        language
+      );
+
+
+      clearHighlight();
+
+
+      requestAnimationFrame(
+        drawConnections
+      );
+
+    }
+
+
+    function toggleLanguage() {
+
+      applyLanguage(
+        currentLanguage === "ko"
+          ? "en"
+          : "ko"
+      );
+
+    }
 
 
     const connections = [
@@ -1138,7 +1476,9 @@
 
 
         button.textContent =
-          "PNG 생성 중...";
+          currentLanguage === "ko"
+            ? "PNG 생성 중..."
+            : "Creating PNG...";
 
 
         try {
@@ -1233,7 +1573,9 @@
 
 
           alert(
-            "PNG 생성에 실패했습니다. 브라우저를 새로고침한 뒤 다시 시도해주세요."
+            currentLanguage === "ko"
+              ? "PNG 생성에 실패했습니다. 브라우저를 새로고침한 뒤 다시 시도해주세요."
+              : "PNG export failed. Refresh the browser and try again."
           );
 
         }
@@ -1304,7 +1646,9 @@
 
 
           alert(
-            "SVG 생성에 실패했습니다."
+            currentLanguage === "ko"
+              ? "SVG 생성에 실패했습니다."
+              : "SVG export failed."
           );
 
         }
@@ -1340,6 +1684,27 @@
     window.addEventListener(
       "DOMContentLoaded",
       async () => {
+
+        collectTranslationTargets();
+
+
+        const savedLanguage =
+          localStorage.getItem(
+            "wheelchair-diagram-language"
+          );
+
+
+        applyLanguage(
+          savedLanguage === "en"
+            ? "en"
+            : "ko"
+        );
+
+
+        languageToggle.addEventListener(
+          "click",
+          toggleLanguage
+        );
 
         document
           .getElementById(
@@ -1437,6 +1802,9 @@
 
       width: 100%;
 
+      position:
+        relative;
+
       padding:
         24px
         28px
@@ -1458,6 +1826,9 @@
       font-weight:
         700;
 
+      padding-right:
+        86px;
+
     }
 
 
@@ -1471,6 +1842,88 @@
 
       font-size:
         13px;
+
+      padding-right:
+        86px;
+
+    }
+
+
+    .language-toggle {
+
+      position:
+        absolute;
+
+      top:
+        24px;
+
+      right:
+        28px;
+
+      min-width:
+        64px;
+
+      height:
+        34px;
+
+      padding:
+        0 14px;
+
+      border:
+        1px solid #334155;
+
+      border-radius:
+        8px;
+
+      background:
+        #1F2937;
+
+      color:
+        #FFFFFF;
+
+      font-family:
+        inherit;
+
+      font-size:
+        13px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        0.04em;
+
+      cursor:
+        pointer;
+
+      z-index:
+        20;
+
+      transition:
+        background 0.16s ease,
+        transform 0.16s ease;
+
+    }
+
+
+    .language-toggle:hover {
+
+      background:
+        #334155;
+
+      transform:
+        translateY(-1px);
+
+    }
+
+
+    .language-toggle:focus-visible {
+
+      outline:
+        3px solid rgba(59, 130, 246, 0.35);
+
+      outline-offset:
+        2px;
 
     }
 
@@ -2279,6 +2732,16 @@
 <body>
 
 <div class="page">
+
+
+  <button
+    id="language-toggle"
+    class="language-toggle"
+    type="button"
+    aria-label="Switch to English"
+  >
+    ENG
+  </button>
 
 
   <h1>
