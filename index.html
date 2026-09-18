@@ -1,0 +1,2968 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    자율주행 휠체어 월드 모델 아키텍처
+  </title>
+
+  <meta
+    name="description"
+    content="센서 입력부터 인지, 특징 공학, 통합 월드 모델, 위험도 평가 및 디지털 트윈까지의 전체 구조를 인터랙티브 다이어그램으로 시각화한 프로젝트입니다."
+  >
+
+
+  <!-- 패비콘 -->
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="data:image/png;base64,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"
+  >
+
+
+  <!-- GitHub Pages에서도 사용할 수 있는 프로젝트 패비콘 -->
+  <link
+    rel="icon"
+    type="image/png"
+    href="./favicon.png"
+  >
+
+
+  <!-- Noto Sans KR -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- PNG 저장 -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
+  </script>
+
+
+  <!-- SVG 저장 -->
+  <script type="module">
+
+    import {
+      toSvg
+    } from
+      "https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/+esm";
+
+
+    const diagram =
+      document.getElementById(
+        "diagram"
+      );
+
+
+    const edgeLayer =
+      document.getElementById(
+        "edge-layer"
+      );
+
+
+    const connections = [
+
+      {
+        from: "s-camera",
+        to: "p-vision",
+        fromX: 0.16,
+        toX: 0.30,
+        route: "lane",
+        lane: 0,
+        laneCount: 10
+      },
+
+      {
+        from: "s-camera",
+        to: "p-vl",
+        fromX: 0.40,
+        toX: 0.30,
+        route: "lane",
+        lane: 1,
+        laneCount: 10
+      },
+
+      {
+        from: "s-camera",
+        to: "p-step",
+        fromX: 0.74,
+        toX: 0.30,
+        route: "lane",
+        lane: 2,
+        laneCount: 10
+      },
+
+      {
+        from: "s-lidar",
+        to: "p-vl",
+        fromX: 0.52,
+        toX: 0.72,
+        route: "lane",
+        lane: 3,
+        laneCount: 10
+      },
+
+      {
+        from: "s-ultra",
+        to: "p-ultra",
+        fromX: 0.20,
+        toX: 0.28,
+        route: "lane",
+        lane: 4,
+        laneCount: 10
+      },
+
+      {
+        from: "s-ultra",
+        to: "p-step",
+        fromX: 0.46,
+        toX: 0.72,
+        route: "lane",
+        lane: 5,
+        laneCount: 10
+      },
+
+      {
+        from: "s-ultra",
+        to: "p-rough",
+        fromX: 0.78,
+        toX: 0.28,
+        route: "lane",
+        lane: 6,
+        laneCount: 10
+      },
+
+      {
+        from: "s-imu",
+        to: "p-imu",
+        fromX: 0.28,
+        toX: 0.30,
+        route: "lane",
+        lane: 7,
+        laneCount: 10
+      },
+
+      {
+        from: "s-imu",
+        to: "p-rough",
+        fromX: 0.72,
+        toX: 0.72,
+        route: "lane",
+        lane: 8,
+        laneCount: 10
+      },
+
+      {
+        from: "s-gnss",
+        to: "p-location",
+        fromX: 0.50,
+        toX: 0.60,
+        route: "lane",
+        lane: 9,
+        laneCount: 10
+      },
+
+
+      {
+        from: "p-vision",
+        to: "f-static",
+        fromX: 0.15,
+        toX: 0.20,
+        route: "lane",
+        lane: 0,
+        laneCount: 12
+      },
+
+      {
+        from: "p-vision",
+        to: "f-dynamic",
+        fromX: 0.45,
+        toX: 0.16,
+        route: "lane",
+        lane: 1,
+        laneCount: 12
+      },
+
+      {
+        from: "p-vision",
+        to: "f-floor",
+        fromX: 0.80,
+        toX: 0.10,
+        route: "lane",
+        lane: 2,
+        laneCount: 12
+      },
+
+      {
+        from: "p-vl",
+        to: "f-static",
+        fromX: 0.26,
+        toX: 0.75,
+        route: "lane",
+        lane: 3,
+        laneCount: 12
+      },
+
+      {
+        from: "p-vl",
+        to: "f-dynamic",
+        fromX: 0.70,
+        toX: 0.45,
+        route: "lane",
+        lane: 4,
+        laneCount: 12
+      },
+
+      {
+        from: "p-ultra",
+        to: "f-floor",
+        fromX: 0.25,
+        toX: 0.32,
+        route: "lane",
+        lane: 5,
+        laneCount: 12
+      },
+
+      {
+        from: "p-ultra",
+        to: "f-device",
+        fromX: 0.72,
+        toX: 0.12,
+        route: "lane",
+        lane: 6,
+        laneCount: 12
+      },
+
+      {
+        from: "p-step",
+        to: "f-floor",
+        fromX: 0.50,
+        toX: 0.50,
+        route: "lane",
+        lane: 7,
+        laneCount: 12
+      },
+
+      {
+        from: "p-imu",
+        to: "f-floor",
+        fromX: 0.27,
+        toX: 0.72,
+        route: "lane",
+        lane: 8,
+        laneCount: 12
+      },
+
+      {
+        from: "p-imu",
+        to: "f-device",
+        fromX: 0.74,
+        toX: 0.40,
+        route: "lane",
+        lane: 9,
+        laneCount: 12
+      },
+
+      {
+        from: "p-rough",
+        to: "f-floor",
+        fromX: 0.50,
+        toX: 0.90,
+        route: "lane",
+        lane: 10,
+        laneCount: 12
+      },
+
+      {
+        from: "p-location",
+        to: "f-device",
+        fromX: 0.50,
+        toX: 0.78,
+        route: "lane",
+        lane: 11,
+        laneCount: 12
+      },
+
+
+      {
+        from: "f-static",
+        to: "world-model",
+        fromX: 0.50,
+        toX: 0.14,
+        route: "fan"
+      },
+
+      {
+        from: "f-dynamic",
+        to: "world-model",
+        fromX: 0.50,
+        toX: 0.38,
+        route: "fan"
+      },
+
+      {
+        from: "f-floor",
+        to: "world-model",
+        fromX: 0.50,
+        toX: 0.62,
+        route: "fan"
+      },
+
+      {
+        from: "f-device",
+        to: "world-model",
+        fromX: 0.50,
+        toX: 0.86,
+        route: "fan"
+      },
+
+
+      {
+        from: "world-model",
+        to: "risk",
+        fromX: 0.30,
+        toX: 0.50,
+        route: "lane",
+        lane: 0,
+        laneCount: 2
+      },
+
+      {
+        from: "world-model",
+        to: "virtual-world",
+        fromX: 0.70,
+        toX: 0.50,
+        route: "lane",
+        lane: 1,
+        laneCount: 2
+      },
+
+
+      {
+        from: "risk",
+        to: "pass",
+        fromX: 0.30,
+        toX: 0.50,
+        route: "fan"
+      },
+
+      {
+        from: "risk",
+        to: "path",
+        fromX: 0.70,
+        toX: 0.50,
+        route: "fan"
+      },
+
+      {
+        from: "pass",
+        to: "path",
+        route: "horizontal",
+        fromY: 0.50,
+        toY: 0.50
+      },
+
+
+      {
+        from: "virtual-world",
+        to: "object-class",
+        fromX: 0.20,
+        toX: 0.50,
+        route: "fan"
+      },
+
+      {
+        from: "virtual-world",
+        to: "test-object",
+        fromX: 0.50,
+        toX: 0.50,
+        route: "fan"
+      },
+
+      {
+        from: "virtual-world",
+        to: "virtual-wheelchair",
+        fromX: 0.80,
+        toX: 0.50,
+        route: "fan"
+      },
+
+      {
+        from: "object-class",
+        to: "testbed",
+        fromX: 0.50,
+        toX: 0.20,
+        route: "fan"
+      },
+
+      {
+        from: "test-object",
+        to: "testbed",
+        fromX: 0.50,
+        toX: 0.50,
+        route: "fan"
+      },
+
+      {
+        from: "virtual-wheelchair",
+        to: "testbed",
+        fromX: 0.50,
+        toX: 0.80,
+        route: "fan"
+      }
+
+    ];
+
+
+
+    function getRect(
+      element
+    ) {
+
+      const base =
+        diagram.getBoundingClientRect();
+
+
+      const rect =
+        element.getBoundingClientRect();
+
+
+      return {
+
+        left:
+          rect.left -
+          base.left,
+
+        right:
+          rect.right -
+          base.left,
+
+        top:
+          rect.top -
+          base.top,
+
+        bottom:
+          rect.bottom -
+          base.top,
+
+        width:
+          rect.width,
+
+        height:
+          rect.height
+
+      };
+
+    }
+
+
+
+    function lanePath(
+      source,
+      target,
+      connection
+    ) {
+
+      const startX =
+        source.left +
+        source.width *
+        (
+          connection.fromX ??
+          0.5
+        );
+
+
+      const startY =
+        source.bottom;
+
+
+      const endX =
+        target.left +
+        target.width *
+        (
+          connection.toX ??
+          0.5
+        );
+
+
+      const endY =
+        target.top;
+
+
+      const gap =
+        endY -
+        startY;
+
+
+      if (
+        gap <= 30
+      ) {
+
+        return fanPath(
+          source,
+          target,
+          connection
+        );
+
+      }
+
+
+      const lane =
+        connection.lane ?? 0;
+
+
+      const laneCount =
+        connection.laneCount ?? 1;
+
+
+      const upperMargin =
+        Math.min(
+          18,
+          gap * 0.18
+        );
+
+
+      const lowerMargin =
+        Math.min(
+          18,
+          gap * 0.18
+        );
+
+
+      const laneTop =
+        startY +
+        upperMargin;
+
+
+      const laneBottom =
+        endY -
+        lowerMargin;
+
+
+      const ratio =
+        (
+          lane + 1
+        ) /
+        (
+          laneCount + 1
+        );
+
+
+      const laneY =
+        laneTop +
+        (
+          laneBottom -
+          laneTop
+        ) *
+        ratio;
+
+
+      return [
+        `M ${startX} ${startY}`,
+        `L ${startX} ${laneY}`,
+        `L ${endX} ${laneY}`,
+        `L ${endX} ${endY}`
+      ].join(" ");
+
+    }
+
+
+
+    function fanPath(
+      source,
+      target,
+      connection
+    ) {
+
+      const startX =
+        source.left +
+        source.width *
+        (
+          connection.fromX ??
+          0.5
+        );
+
+
+      const startY =
+        source.bottom;
+
+
+      const endX =
+        target.left +
+        target.width *
+        (
+          connection.toX ??
+          0.5
+        );
+
+
+      const endY =
+        target.top;
+
+
+      return [
+        `M ${startX} ${startY}`,
+        `L ${endX} ${endY}`
+      ].join(" ");
+
+    }
+
+
+
+    function horizontalPath(
+      source,
+      target,
+      connection
+    ) {
+
+      const startX =
+        source.right;
+
+
+      const startY =
+        source.top +
+        source.height *
+        (
+          connection.fromY ??
+          0.5
+        );
+
+
+      const endX =
+        target.left;
+
+
+      const endY =
+        target.top +
+        target.height *
+        (
+          connection.toY ??
+          0.5
+        );
+
+
+      const middleX =
+        startX +
+        (
+          endX -
+          startX
+        ) *
+        0.5;
+
+
+      return [
+        `M ${startX} ${startY}`,
+        `L ${middleX} ${startY}`,
+        `L ${middleX} ${endY}`,
+        `L ${endX} ${endY}`
+      ].join(" ");
+
+    }
+
+
+
+    function createPath(
+      connection
+    ) {
+
+      const sourceElement =
+        document.getElementById(
+          connection.from
+        );
+
+
+      const targetElement =
+        document.getElementById(
+          connection.to
+        );
+
+
+      if (
+        !sourceElement ||
+        !targetElement
+      ) {
+
+        return null;
+
+      }
+
+
+      const source =
+        getRect(
+          sourceElement
+        );
+
+
+      const target =
+        getRect(
+          targetElement
+        );
+
+
+      if (
+        connection.route ===
+        "horizontal"
+      ) {
+
+        return horizontalPath(
+          source,
+          target,
+          connection
+        );
+
+      }
+
+
+      if (
+        connection.route ===
+        "fan"
+      ) {
+
+        return fanPath(
+          source,
+          target,
+          connection
+        );
+
+      }
+
+
+      return lanePath(
+        source,
+        target,
+        connection
+      );
+
+    }
+
+
+
+    function drawConnections() {
+
+      const width =
+        diagram.scrollWidth;
+
+
+      const height =
+        diagram.scrollHeight;
+
+
+      edgeLayer.setAttribute(
+        "viewBox",
+        `0 0 ${width} ${height}`
+      );
+
+
+      edgeLayer.setAttribute(
+        "width",
+        width
+      );
+
+
+      edgeLayer.setAttribute(
+        "height",
+        height
+      );
+
+
+      edgeLayer
+        .querySelectorAll(
+          ".connection-path"
+        )
+        .forEach(
+          path => path.remove()
+        );
+
+
+      connections.forEach(
+        (
+          connection,
+          index
+        ) => {
+
+          const d =
+            createPath(
+              connection
+            );
+
+
+          if (!d) {
+            return;
+          }
+
+
+          const path =
+            document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "path"
+            );
+
+
+          path.setAttribute(
+            "d",
+            d
+          );
+
+
+          path.setAttribute(
+            "class",
+            "connection-path"
+          );
+
+
+          path.setAttribute(
+            "marker-end",
+            "url(#arrow-head)"
+          );
+
+
+          path.dataset.index =
+            String(index);
+
+
+          path.dataset.from =
+            connection.from;
+
+
+          path.dataset.to =
+            connection.to;
+
+
+          edgeLayer.appendChild(
+            path
+          );
+
+        }
+      );
+
+    }
+
+
+
+    function clearHighlight() {
+
+      diagram.classList.remove(
+        "focus-mode"
+      );
+
+
+      diagram
+        .querySelectorAll(
+          ".diagram-node.active, .diagram-node.origin"
+        )
+        .forEach(
+          element => {
+
+            element.classList.remove(
+              "active",
+              "origin"
+            );
+
+          }
+        );
+
+
+      edgeLayer
+        .querySelectorAll(
+          ".connection-path.active"
+        )
+        .forEach(
+          path => {
+
+            path.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+    }
+
+
+
+    function enableHighlighting() {
+
+      const nodes =
+        diagram.querySelectorAll(
+          ".diagram-node[id]"
+        );
+
+
+      nodes.forEach(
+        node => {
+
+          node.addEventListener(
+            "mouseenter",
+            () => {
+
+              clearHighlight();
+
+
+              diagram.classList.add(
+                "focus-mode"
+              );
+
+
+              node.classList.add(
+                "active",
+                "origin"
+              );
+
+
+              connections.forEach(
+                (
+                  connection,
+                  index
+                ) => {
+
+                  if (
+                    connection.from !==
+                      node.id &&
+                    connection.to !==
+                      node.id
+                  ) {
+
+                    return;
+
+                  }
+
+
+                  const source =
+                    document.getElementById(
+                      connection.from
+                    );
+
+
+                  const target =
+                    document.getElementById(
+                      connection.to
+                    );
+
+
+                  if (source) {
+
+                    source.classList.add(
+                      "active"
+                    );
+
+                  }
+
+
+                  if (target) {
+
+                    target.classList.add(
+                      "active"
+                    );
+
+                  }
+
+
+                  const path =
+                    edgeLayer.querySelector(
+                      `.connection-path[data-index="${index}"]`
+                    );
+
+
+                  if (path) {
+
+                    path.classList.add(
+                      "active"
+                    );
+
+                  }
+
+                }
+              );
+
+            }
+          );
+
+
+          node.addEventListener(
+            "mouseleave",
+            clearHighlight
+          );
+
+        }
+      );
+
+    }
+
+
+
+    function downloadBlob(
+      blob,
+      filename
+    ) {
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      const link =
+        document.createElement(
+          "a"
+        );
+
+
+      link.href =
+        url;
+
+
+      link.download =
+        filename;
+
+
+      document.body.appendChild(
+        link
+      );
+
+
+      link.click();
+
+
+      link.remove();
+
+
+      setTimeout(
+        () => {
+
+          URL.revokeObjectURL(
+            url
+          );
+
+        },
+        1500
+      );
+
+    }
+
+
+
+    function downloadDataUrl(
+      dataUrl,
+      filename
+    ) {
+
+      const link =
+        document.createElement(
+          "a"
+        );
+
+
+      link.href =
+        dataUrl;
+
+
+      link.download =
+        filename;
+
+
+      document.body.appendChild(
+        link
+      );
+
+
+      link.click();
+
+
+      link.remove();
+
+    }
+
+
+
+    async function waitFonts() {
+
+      if (
+        document.fonts &&
+        document.fonts.ready
+      ) {
+
+        await document.fonts.ready;
+
+      }
+
+    }
+
+
+
+    window.exportPNG =
+      async function () {
+
+        clearHighlight();
+
+
+        drawConnections();
+
+
+        await waitFonts();
+
+
+        const button =
+          document.getElementById(
+            "png-button"
+          );
+
+
+        const originalText =
+          button.textContent;
+
+
+        button.disabled =
+          true;
+
+
+        button.textContent =
+          "PNG 생성 중...";
+
+
+        try {
+
+          const canvas =
+            await window.html2canvas(
+              diagram,
+              {
+
+                backgroundColor:
+                  "#FFFFFF",
+
+                scale:
+                  2,
+
+                useCORS:
+                  true,
+
+                allowTaint:
+                  false,
+
+                logging:
+                  false,
+
+                scrollX:
+                  0,
+
+                scrollY:
+                  0,
+
+                width:
+                  diagram.scrollWidth,
+
+                height:
+                  diagram.scrollHeight,
+
+                windowWidth:
+                  diagram.scrollWidth +
+                  100,
+
+                windowHeight:
+                  diagram.scrollHeight +
+                  100
+
+              }
+            );
+
+
+          await new Promise(
+            (
+              resolve,
+              reject
+            ) => {
+
+              canvas.toBlob(
+                blob => {
+
+                  if (!blob) {
+
+                    reject(
+                      new Error(
+                        "PNG 변환 실패"
+                      )
+                    );
+
+                    return;
+
+                  }
+
+
+                  downloadBlob(
+                    blob,
+                    "자율주행_휠체어_월드모델.png"
+                  );
+
+
+                  resolve();
+
+                },
+                "image/png"
+              );
+
+            }
+          );
+
+        }
+        catch (error) {
+
+          console.error(
+            error
+          );
+
+
+          alert(
+            "PNG 생성에 실패했습니다. 브라우저를 새로고침한 뒤 다시 시도해주세요."
+          );
+
+        }
+        finally {
+
+          button.disabled =
+            false;
+
+
+          button.textContent =
+            originalText;
+
+        }
+
+      };
+
+
+
+    window.exportSVG =
+      async function () {
+
+        clearHighlight();
+
+
+        drawConnections();
+
+
+        await waitFonts();
+
+
+        try {
+
+          const dataUrl =
+            await toSvg(
+              diagram,
+              {
+
+                backgroundColor:
+                  "#FFFFFF",
+
+                cacheBust:
+                  false,
+
+                skipFonts:
+                  true,
+
+                width:
+                  diagram.scrollWidth,
+
+                height:
+                  diagram.scrollHeight
+
+              }
+            );
+
+
+          downloadDataUrl(
+            dataUrl,
+            "자율주행_휠체어_월드모델.svg"
+          );
+
+        }
+        catch (error) {
+
+          console.error(
+            error
+          );
+
+
+          alert(
+            "SVG 생성에 실패했습니다."
+          );
+
+        }
+
+      };
+
+
+
+    let resizeTimer =
+      null;
+
+
+    window.addEventListener(
+      "resize",
+      () => {
+
+        clearTimeout(
+          resizeTimer
+        );
+
+
+        resizeTimer =
+          setTimeout(
+            drawConnections,
+            80
+          );
+
+      }
+    );
+
+
+
+    window.addEventListener(
+      "DOMContentLoaded",
+      async () => {
+
+        document
+          .getElementById(
+            "png-button"
+          )
+          .addEventListener(
+            "click",
+            window.exportPNG
+          );
+
+
+        document
+          .getElementById(
+            "svg-button"
+          )
+          .addEventListener(
+            "click",
+            window.exportSVG
+          );
+
+        await waitFonts();
+
+
+        requestAnimationFrame(
+          () => {
+
+            requestAnimationFrame(
+              () => {
+
+                drawConnections();
+
+                enableHighlighting();
+
+              }
+            );
+
+          }
+        );
+
+
+        const resizeObserver =
+          new ResizeObserver(
+            () => {
+
+              requestAnimationFrame(
+                drawConnections
+              );
+
+            }
+          );
+
+
+        resizeObserver.observe(
+          diagram
+        );
+
+      }
+    );
+
+  </script>
+
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+      width: 100%;
+      margin: 0;
+    }
+
+
+    body {
+
+      background:
+        #F5F7FA;
+
+      color:
+        #1F2937;
+
+      font-family:
+        "Noto Sans KR",
+        "Malgun Gothic",
+        sans-serif;
+
+    }
+
+
+    .page {
+
+      width: 100%;
+
+      padding:
+        24px
+        28px
+        60px;
+
+    }
+
+
+    h1 {
+
+      margin:
+        0
+        0
+        5px;
+
+      font-size:
+        25px;
+
+      font-weight:
+        700;
+
+    }
+
+
+    .page-subtitle {
+
+      margin-bottom:
+        14px;
+
+      color:
+        #64748B;
+
+      font-size:
+        13px;
+
+    }
+
+
+    .toolbar {
+
+      display:
+        flex;
+
+      gap:
+        8px;
+
+      margin-bottom:
+        14px;
+
+    }
+
+
+    button {
+
+      padding:
+        7px
+        13px;
+
+      border:
+        1px solid #CBD5E1;
+
+      border-radius:
+        7px;
+
+      background:
+        #FFFFFF;
+
+      color:
+        #334155;
+
+      font-family:
+        inherit;
+
+      font-size:
+        12px;
+
+      font-weight:
+        600;
+
+      cursor:
+        pointer;
+
+    }
+
+
+    button:hover {
+
+      background:
+        #F8FAFC;
+
+    }
+
+
+    button:disabled {
+
+      opacity:
+        0.55;
+
+      cursor:
+        wait;
+
+    }
+
+
+
+    .diagram-scroll {
+
+      width: 100%;
+
+      overflow-x:
+        auto;
+
+    }
+
+
+
+    #diagram {
+
+      position:
+        relative;
+
+      width:
+        1500px;
+
+      margin:
+        0 auto;
+
+      padding:
+        14px;
+
+      overflow:
+        visible;
+
+      background:
+        #FFFFFF;
+
+      border:
+        1px solid #E2E8F0;
+
+      border-radius:
+        12px;
+
+    }
+
+
+
+    #edge-layer {
+
+      position:
+        absolute;
+
+      top:
+        0;
+
+      left:
+        0;
+
+      z-index:
+        2;
+
+      pointer-events:
+        none;
+
+      overflow:
+        visible;
+
+    }
+
+
+
+    .connection-path {
+
+      fill:
+        none;
+
+      stroke:
+        #8C96A6;
+
+      stroke-width:
+        1.12px;
+
+      stroke-linecap:
+        round;
+
+      stroke-linejoin:
+        round;
+
+      opacity:
+        0.9;
+
+      vector-effect:
+        non-scaling-stroke;
+
+      transition:
+        opacity 0.14s ease,
+        stroke-width 0.14s ease,
+        stroke 0.14s ease;
+
+    }
+
+
+
+    .architecture-section {
+
+      position:
+        relative;
+
+      z-index:
+        1;
+
+      width:
+        100%;
+
+      margin-bottom:
+        48px;
+
+      padding:
+        37px
+        12px
+        14px;
+
+      background:
+        #FFFFFF;
+
+      border:
+        1px solid #DCE2EA;
+
+      border-radius:
+        10px;
+
+    }
+
+
+
+    .section-title {
+
+      position:
+        absolute;
+
+      top:
+        9px;
+
+      left:
+        13px;
+
+      z-index:
+        5;
+
+      color:
+        #162033;
+
+      font-size:
+        14px;
+
+      font-weight:
+        700;
+
+    }
+
+
+
+    .diagram-node {
+
+      position:
+        relative;
+
+      z-index:
+        4;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
+
+      align-items:
+        center;
+
+      min-width:
+        0;
+
+      padding:
+        10px
+        10px;
+
+      border:
+        1.2px solid;
+
+      border-radius:
+        7px;
+
+      text-align:
+        center;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.46;
+
+      cursor:
+        pointer;
+
+      transition:
+        opacity 0.14s ease,
+        box-shadow 0.14s ease,
+        transform 0.14s ease;
+
+    }
+
+
+
+    .diagram-node strong {
+
+      font-weight:
+        700;
+
+    }
+
+
+
+    .node-title {
+
+      display:
+        block;
+
+      font-size:
+        14.333px;
+
+      font-weight:
+        700;
+
+      line-height:
+        1.3;
+
+    }
+
+
+
+    .sensor-node {
+
+      min-height:
+        55px;
+
+      background:
+        #EAF3FF;
+
+      border-color:
+        #79A6D6;
+
+      color:
+        #213A55;
+
+    }
+
+
+
+    .perception-node {
+
+      min-height:
+        118px;
+
+      background:
+        #F2EEFB;
+
+      border-color:
+        #9988C9;
+
+      color:
+        #393150;
+
+    }
+
+
+
+    .static-node {
+
+      background:
+        #EDF7EE;
+
+      border-color:
+        #78AA7D;
+
+      color:
+        #29472C;
+
+    }
+
+
+
+    .dynamic-node {
+
+      background:
+        #FFF0EA;
+
+      border-color:
+        #C9856B;
+
+      color:
+        #593428;
+
+    }
+
+
+
+    .floor-node {
+
+      background:
+        #FFF6E7;
+
+      border-color:
+        #C99A4B;
+
+      color:
+        #59411F;
+
+    }
+
+
+
+    .device-node {
+
+      background:
+        #E8F6FA;
+
+      border-color:
+        #68A5BA;
+
+      color:
+        #244B56;
+
+    }
+
+
+
+    .world-node {
+
+      width:
+        620px;
+
+      min-height:
+        92px;
+
+      margin:
+        26px
+        auto
+        0;
+
+      background:
+        #EEF1F5;
+
+      border:
+        2px solid #667085;
+
+      color:
+        #202936;
+
+    }
+
+
+
+    .output-node {
+
+      background:
+        #F1EEFA;
+
+      border-color:
+        #8F7AB7;
+
+      color:
+        #3D3153;
+
+    }
+
+
+
+    .digital-node {
+
+      background:
+        #EDF8F8;
+
+      border-color:
+        #70A7AA;
+
+      color:
+        #294E51;
+
+    }
+
+
+
+    .sensor-grid {
+
+      position:
+        relative;
+
+      z-index:
+        4;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(5, 1fr);
+
+      gap:
+        8px;
+
+    }
+
+
+
+    .perception-grid {
+
+      position:
+        relative;
+
+      z-index:
+        4;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(7, 1fr);
+
+      gap:
+        7px;
+
+    }
+
+
+
+    .feature-grid {
+
+      position:
+        relative;
+
+      z-index:
+        4;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr
+        1.05fr
+        1.05fr
+        1.36fr;
+
+      gap:
+        9px;
+
+      align-items:
+        stretch;
+
+    }
+
+
+
+    .feature-grid
+    .diagram-node {
+
+      min-height:
+        158px;
+
+    }
+
+
+
+    .axis-line {
+
+      white-space:
+        nowrap;
+
+      font-size:
+        12.5px;
+
+    }
+
+
+
+    .bottom-grid {
+
+      position:
+        relative;
+
+      z-index:
+        1;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        0.88fr
+        1.32fr;
+
+      gap:
+        11px;
+
+    }
+
+
+
+    .bottom-grid
+    .architecture-section {
+
+      margin-bottom:
+        0;
+
+    }
+
+
+
+    .output-layout {
+
+      position:
+        relative;
+
+      z-index:
+        4;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      gap:
+        20px;
+
+    }
+
+
+
+    #risk {
+
+      width:
+        330px;
+
+      min-height:
+        102px;
+
+    }
+
+
+
+    .decision-row {
+
+      width:
+        100%;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap:
+        8px;
+
+    }
+
+
+
+    .decision-row
+    .diagram-node {
+
+      min-height:
+        65px;
+
+    }
+
+
+
+    .digital-layout {
+
+      position:
+        relative;
+
+      z-index:
+        4;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      gap:
+        20px;
+
+    }
+
+
+
+    #virtual-world {
+
+      width:
+        390px;
+
+      min-height:
+        74px;
+
+    }
+
+
+
+    .digital-component-row {
+
+      width:
+        100%;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap:
+        8px;
+
+    }
+
+
+
+    .digital-component-row
+    .diagram-node {
+
+      min-height:
+        105px;
+
+    }
+
+
+
+    #testbed {
+
+      width:
+        410px;
+
+      min-height:
+        80px;
+
+    }
+
+
+
+    #diagram.focus-mode
+    .diagram-node {
+
+      opacity:
+        0.11;
+
+    }
+
+
+
+    #diagram.focus-mode
+    .connection-path {
+
+      opacity:
+        0.055;
+
+    }
+
+
+
+    #diagram.focus-mode
+    .diagram-node.active {
+
+      opacity:
+        1;
+
+    }
+
+
+
+    #diagram.focus-mode
+    .connection-path.active {
+
+      opacity:
+        1;
+
+      stroke:
+        #465466;
+
+      stroke-width:
+        2px;
+
+    }
+
+
+
+    #diagram.focus-mode
+    .diagram-node.origin {
+
+      opacity:
+        1;
+
+      transform:
+        translateY(-1px);
+
+      box-shadow:
+        0 3px 10px
+        rgba(15, 23, 42, 0.18);
+
+    }
+
+
+
+    @media (
+      max-width: 1500px
+    ) {
+
+      #diagram {
+
+        margin:
+          0;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+<div class="page">
+
+
+  <h1>
+    자율주행 휠체어 월드 모델 아키텍처
+  </h1>
+
+
+  <div class="page-subtitle">
+    센서 입력부터 인지, 특징 공학, 통합 월드 모델, 위험도 평가 및 디지털 트윈까지의 전체 구조
+  </div>
+
+
+  <div class="toolbar">
+
+    <button
+      id="png-button"
+      type="button"
+    >
+      PNG 내보내기
+    </button>
+
+
+    <button
+      id="svg-button"
+      type="button"
+    >
+      SVG 내보내기
+    </button>
+
+  </div>
+
+
+
+  <div class="diagram-scroll">
+
+
+    <div id="diagram">
+
+
+      <svg
+        id="edge-layer"
+        aria-hidden="true"
+      >
+
+        <defs>
+
+          <marker
+            id="arrow-head"
+            markerWidth="8"
+            markerHeight="8"
+            refX="7"
+            refY="4"
+            orient="auto"
+            markerUnits="strokeWidth"
+          >
+
+            <path
+              d="M 0 0 L 8 4 L 0 8 Z"
+              fill="#8C96A6"
+            />
+
+          </marker>
+
+        </defs>
+
+      </svg>
+
+
+
+      <section
+        class="architecture-section"
+      >
+
+        <div class="section-title">
+          1. 센서 입력
+        </div>
+
+
+        <div class="sensor-grid">
+
+
+          <div
+            class="diagram-node sensor-node"
+            id="s-camera"
+          >
+
+            <span class="node-title">
+              스테레오 카메라
+            </span>
+
+          </div>
+
+
+          <div
+            class="diagram-node sensor-node"
+            id="s-lidar"
+          >
+
+            <span class="node-title">
+              라이다
+            </span>
+
+          </div>
+
+
+          <div
+            class="diagram-node sensor-node"
+            id="s-ultra"
+          >
+
+            <span class="node-title">
+              초음파 센서
+            </span>
+
+          </div>
+
+
+          <div
+            class="diagram-node sensor-node"
+            id="s-imu"
+          >
+
+            <span class="node-title">
+              관성측정장치
+            </span>
+
+          </div>
+
+
+          <div
+            class="diagram-node sensor-node"
+            id="s-gnss"
+          >
+
+            <span class="node-title">
+              위성항법장치
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+
+      <section
+        class="architecture-section"
+      >
+
+        <div class="section-title">
+          2. 인지 출력
+        </div>
+
+
+        <div class="perception-grid">
+
+
+          <div
+            class="diagram-node perception-node"
+            id="p-vision"
+          >
+
+            <strong>
+              장애물 탐지
+            </strong>
+
+            <strong>
+              보행로 분할
+            </strong>
+
+            <strong>
+              노면 재질
+            </strong>
+
+            <strong>
+              노면 상태 분류
+            </strong>
+
+            <strong>
+              포트홀 탐지
+            </strong>
+
+          </div>
+
+
+
+          <div
+            class="diagram-node perception-node"
+            id="p-vl"
+          >
+
+            <strong>
+              장애물 좌표 · 거리
+            </strong>
+
+            <strong>
+              장애물 상대속도
+            </strong>
+
+            <strong>
+              상대거리 변화량
+            </strong>
+
+            <strong>
+              통과 가능 폭
+            </strong>
+
+          </div>
+
+
+
+          <div
+            class="diagram-node perception-node"
+            id="p-step"
+          >
+
+            <strong>
+              단차
+            </strong>
+
+          </div>
+
+
+
+          <div
+            class="diagram-node perception-node"
+            id="p-ultra"
+          >
+
+            <strong>
+              근거리 거리
+            </strong>
+
+            <strong>
+              지면-차체 높이
+            </strong>
+
+            <strong>
+              차량 속도
+            </strong>
+
+            <strong>
+              노면 재질 범주 분류
+            </strong>
+
+          </div>
+
+
+
+          <div
+            class="diagram-node perception-node"
+            id="p-rough"
+          >
+
+            <strong>
+              노면 거칠기
+            </strong>
+
+          </div>
+
+
+
+          <div
+            class="diagram-node perception-node"
+            id="p-imu"
+          >
+
+            <strong>
+              차량 6축 상태
+            </strong>
+
+            <span>
+              서지 · 스웨이 · 히브
+            </span>
+
+            <span>
+              롤 · 피치 · 요
+            </span>
+
+          </div>
+
+
+
+          <div
+            class="diagram-node perception-node"
+            id="p-location"
+          >
+
+            <strong>
+              위치
+            </strong>
+
+            <span>
+              경도 · 위도
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+
+      <section
+        class="architecture-section"
+      >
+
+        <div class="section-title">
+          3. 월드 모델용 특징 공학
+        </div>
+
+
+        <div class="feature-grid">
+
+
+          <div
+            class="diagram-node static-node"
+            id="f-static"
+          >
+
+            <span class="node-title">
+              바닥 위 정적 객체
+            </span>
+
+            <br>
+
+            <strong>
+              정적 장애물 상태
+            </strong>
+
+            <span>
+              거리 · 상대속도 · 신뢰도 · 좌표
+            </span>
+
+          </div>
+
+
+
+          <div
+            class="diagram-node dynamic-node"
+            id="f-dynamic"
+          >
+
+            <span class="node-title">
+              바닥 위 동적 객체
+            </span>
+
+            <br>
+
+            <strong>
+              동적 장애물 상태
+            </strong>
+
+            <span>
+              거리 · 상대속도 · 신뢰도 · 좌표
+            </span>
+
+            <br>
+
+            <strong>
+              보행로 분할 및 폭 추정
+            </strong>
+
+          </div>
+
+
+
+          <div
+            class="diagram-node floor-node"
+            id="f-floor"
+          >
+
+            <span class="node-title">
+              노면
+            </span>
+
+            <br>
+
+            <span>
+              <strong>
+                포트홀
+              </strong>
+              : 좌표 · 크기
+            </span>
+
+            <strong>
+              노면 돌출부
+            </strong>
+
+            <strong>
+              단차
+            </strong>
+
+            <strong>
+              노면 거칠기
+            </strong>
+
+            <strong>
+              노면 재질 · 상태 분류
+            </strong>
+
+          </div>
+
+
+
+          <div
+            class="diagram-node device-node"
+            id="f-device"
+          >
+
+            <span class="node-title">
+              장치
+            </span>
+
+            <br>
+
+            <strong>
+              위성항법 위치
+            </strong>
+
+            <strong>
+              속도 · 가속도 · 방향
+            </strong>
+
+            <strong>
+              차량 6축 상태
+            </strong>
+
+            <span class="axis-line">
+              서지 · 스웨이 · 히브 · 롤 · 피치 · 요
+            </span>
+
+            <strong>
+              지면-차체 높이
+            </strong>
+
+          </div>
+
+
+        </div>
+
+
+
+        <div
+          class="diagram-node world-node"
+          id="world-model"
+        >
+
+          <span class="node-title">
+            통합 월드 모델
+          </span>
+
+          <br>
+
+          <span>
+            바닥 위 정적 객체 · 바닥 위 동적 객체 · 노면 · 장치 상태를 통합하여
+          </span>
+
+          <strong>
+            현재 환경과 차량 상태를 실시간 표현
+          </strong>
+
+        </div>
+
+
+      </section>
+
+
+
+      <div class="bottom-grid">
+
+
+        <section
+          class="architecture-section"
+        >
+
+          <div class="section-title">
+            4. 월드 모델 출력
+          </div>
+
+
+          <div class="output-layout">
+
+
+            <div
+              class="diagram-node output-node"
+              id="risk"
+            >
+
+              <span class="node-title">
+                위험도 점수
+              </span>
+
+              <br>
+
+              <strong>
+                정적 점수
+              </strong>
+
+              <strong>
+                동적 · 실시간 점수
+              </strong>
+
+            </div>
+
+
+
+            <div class="decision-row">
+
+
+              <div
+                class="diagram-node output-node"
+                id="pass"
+              >
+
+                <span class="node-title">
+                  통과 가능 여부
+                </span>
+
+              </div>
+
+
+
+              <div
+                class="diagram-node output-node"
+                id="path"
+              >
+
+                <span class="node-title">
+                  경로 탐색
+                </span>
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+
+
+        <section
+          class="architecture-section"
+        >
+
+          <div class="section-title">
+            5. 디지털 트윈
+          </div>
+
+
+          <div class="digital-layout">
+
+
+            <div
+              class="diagram-node digital-node"
+              id="virtual-world"
+            >
+
+              <span class="node-title">
+                가상 세계
+              </span>
+
+              <span>
+                실제 세계와 동일한 비율로 생성
+              </span>
+
+            </div>
+
+
+
+            <div class="digital-component-row">
+
+
+              <div
+                class="diagram-node digital-node"
+                id="object-class"
+              >
+
+                <span class="node-title">
+                  물체 클래스 분류
+                </span>
+
+                <br>
+
+                <span>
+                  가상 세계에 존재하는
+                </span>
+
+                <span>
+                  물체 종류 및 영역 정보
+                </span>
+
+              </div>
+
+
+
+              <div
+                class="diagram-node digital-node"
+                id="test-object"
+              >
+
+                <span class="node-title">
+                  테스트 장애물 생성
+                </span>
+
+                <br>
+
+                <strong>
+                  정적 장애물
+                </strong>
+
+                <strong>
+                  동적 장애물
+                </strong>
+
+              </div>
+
+
+
+              <div
+                class="diagram-node digital-node"
+                id="virtual-wheelchair"
+              >
+
+                <span class="node-title">
+                  가상 휠체어
+                </span>
+
+                <br>
+
+                <span>
+                  가상 세계에서 동작하는
+                </span>
+
+                <span>
+                  휠체어 에이전트
+                </span>
+
+              </div>
+
+
+            </div>
+
+
+
+            <div
+              class="diagram-node digital-node"
+              id="testbed"
+            >
+
+              <span class="node-title">
+                테스트 베드
+              </span>
+
+              <br>
+
+              <strong>
+                다양한 조건에서 학습 및 검증
+              </strong>
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+
+</html>
