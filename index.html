@@ -143,6 +143,8 @@
         "IMU",
       "위성항법장치":
         "GNSS",
+      "환경 센서(BME)":
+        "Environmental Sensor(BME)",
       "장애물 탐지":
         "Obstacle Detection",
       "보행로 분할":
@@ -173,6 +175,14 @@
         "Surface Material Category",
       "노면 거칠기":
         "Surface Roughness",
+      "온도":
+        "Temperature",
+      "습도":
+        "Humidity",
+      "기압":
+        "Pressure",
+      "온도 · 습도 · 기압":
+        "Temperature · Humidity · Pressure",
       "차량 6축 상태":
         "6-Axis Vehicle State",
       "서지 · 스웨이 · 히브":
@@ -205,8 +215,8 @@
         "Surface Protrusion",
       "노면 재질 · 상태 분류":
         "Surface Material · Condition Classification",
-      "장치":
-        "Vehicle System",
+      "장치 상태":
+        "Device State",
       "위성항법 위치":
         "GNSS Position",
       "속도 · 가속도 · 방향":
@@ -229,6 +239,8 @@
         "Passability",
       "경로 탐색":
         "Path Planning",
+      "통행 지도":
+        "Passability Map",
       "가상 세계":
         "Virtual World",
       "실제 세계와 동일한 비율로 생성":
@@ -522,6 +534,56 @@
         laneCount: 10
       },
 
+      {
+        from: "s-bme",
+        to: "p-step",
+        fromX: 0.12,
+        toX: 0.88,
+        route: "lane",
+        lane: 10,
+        laneCount: 15
+      },
+
+      {
+        from: "s-bme",
+        to: "p-ultra",
+        fromX: 0.36,
+        toX: 0.45,
+        route: "lane",
+        lane: 11,
+        laneCount: 15
+      },
+
+      {
+        from: "s-bme",
+        to: "p-rough",
+        fromX: 0.60,
+        toX: 0.50,
+        route: "lane",
+        lane: 12,
+        laneCount: 15
+      },
+
+      {
+        from: "s-bme",
+        to: "p-environment",
+        fromX: 0.88,
+        toX: 0.50,
+        route: "lane",
+        lane: 13,
+        laneCount: 15
+      },
+
+      {
+        from: "s-imu",
+        to: "p-ultra",
+        fromX: 0.08,
+        toX: 0.82,
+        route: "lane",
+        lane: 14,
+        laneCount: 15
+      },
+
 
       {
         from: "p-vision",
@@ -643,6 +705,16 @@
         laneCount: 12
       },
 
+      {
+        from: "p-environment",
+        to: "f-device",
+        fromX: 0.50,
+        toX: 0.92,
+        route: "lane",
+        lane: 12,
+        laneCount: 13
+      },
+
 
       {
         from: "f-static",
@@ -720,6 +792,22 @@
         route: "horizontal",
         fromY: 0.50,
         toY: 0.50
+      },
+
+      {
+        from: "pass",
+        to: "passability-map",
+        fromX: 0.35,
+        toX: 0.30,
+        route: "fan"
+      },
+
+      {
+        from: "path",
+        to: "passability-map",
+        fromX: 0.65,
+        toX: 0.70,
+        route: "fan"
       },
 
 
@@ -2396,7 +2484,7 @@
         grid;
 
       grid-template-columns:
-        repeat(5, 1fr);
+        repeat(6, 1fr);
 
       gap:
         8px;
@@ -2417,7 +2505,7 @@
         grid;
 
       grid-template-columns:
-        repeat(7, 1fr);
+        repeat(8, 1fr);
 
       gap:
         7px;
@@ -2566,6 +2654,20 @@
 
       min-height:
         65px;
+
+    }
+
+
+    #passability-map {
+
+      width:
+        330px;
+
+      min-height:
+        80px;
+
+      margin-top:
+        12px;
 
     }
 
@@ -2861,6 +2963,18 @@
 
           <div
             class="diagram-node sensor-node"
+            id="s-bme"
+          >
+
+            <span class="node-title">
+              환경 센서(BME)
+            </span>
+
+          </div>
+
+
+          <div
+            class="diagram-node sensor-node"
             id="s-imu"
           >
 
@@ -3000,6 +3114,26 @@
 
             <strong>
               노면 거칠기
+            </strong>
+
+          </div>
+
+
+          <div
+            class="diagram-node perception-node"
+            id="p-environment"
+          >
+
+            <strong>
+              온도
+            </strong>
+
+            <strong>
+              습도
+            </strong>
+
+            <strong>
+              기압
             </strong>
 
           </div>
@@ -3157,7 +3291,7 @@
           >
 
             <span class="node-title">
-              장치
+              장치 상태
             </span>
 
             <br>
@@ -3180,6 +3314,10 @@
 
             <strong>
               지면-차체 높이
+            </strong>
+
+            <strong>
+              온도 · 습도 · 기압
             </strong>
 
           </div>
@@ -3280,6 +3418,18 @@
 
               </div>
 
+
+            </div>
+
+
+            <div
+              class="diagram-node output-node"
+              id="passability-map"
+            >
+
+              <span class="node-title">
+                통행 지도
+              </span>
 
             </div>
 
