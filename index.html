@@ -720,32 +720,28 @@
         from: "f-static",
         to: "world-model",
         fromX: 0.50,
-        toX: 0.14,
-        route: "fan"
+        route: "vertical"
       },
 
       {
         from: "f-dynamic",
         to: "world-model",
         fromX: 0.50,
-        toX: 0.38,
-        route: "fan"
+        route: "vertical"
       },
 
       {
         from: "f-floor",
         to: "world-model",
         fromX: 0.50,
-        toX: 0.62,
-        route: "fan"
+        route: "vertical"
       },
 
       {
         from: "f-device",
         to: "world-model",
         fromX: 0.50,
-        toX: 0.86,
-        route: "fan"
+        route: "vertical"
       },
 
 
@@ -1109,6 +1105,30 @@
 
 
 
+    function verticalPath(
+      source,
+      target,
+      connection
+    ) {
+
+      const x =
+        source.left +
+        source.width *
+        (
+          connection.fromX ??
+          0.5
+        );
+
+
+      return [
+        `M ${x} ${source.bottom}`,
+        `L ${x} ${target.top}`
+      ].join(" ");
+
+    }
+
+
+
     function createPath(
       connection
     ) {
@@ -1153,6 +1173,20 @@
       ) {
 
         return horizontalPath(
+          source,
+          target,
+          connection
+        );
+
+      }
+
+
+      if (
+        connection.route ===
+        "vertical"
+      ) {
+
+        return verticalPath(
           source,
           target,
           connection
@@ -1262,6 +1296,48 @@
             "marker-end",
             "url(#arrow-head)"
           );
+
+
+          const featureTargetStyles = {
+            "f-static": {
+              color: "#78AA7D",
+              marker: "arrow-head-static"
+            },
+            "f-dynamic": {
+              color: "#C9856B",
+              marker: "arrow-head-dynamic"
+            },
+            "f-floor": {
+              color: "#C99A4B",
+              marker: "arrow-head-floor"
+            },
+            "f-device": {
+              color: "#68A5BA",
+              marker: "arrow-head-device"
+            }
+          };
+
+
+          const featureTargetStyle =
+            connection.from.startsWith("p-")
+              ? featureTargetStyles[
+                  connection.to
+                ]
+              : null;
+
+
+          if (featureTargetStyle) {
+
+            path.style.stroke =
+              featureTargetStyle.color;
+
+
+            path.setAttribute(
+              "marker-end",
+              `url(#${featureTargetStyle.marker})`
+            );
+
+          }
 
 
           path.dataset.index =
@@ -2563,7 +2639,10 @@
     .world-node {
 
       width:
-        620px;
+        100%;
+
+      box-sizing:
+        border-box;
 
       min-height:
         92px;
@@ -3047,6 +3126,78 @@
             <path
               d="M 0 0 L 8 4 L 0 8 Z"
               fill="#8C96A6"
+            />
+
+          </marker>
+
+
+          <marker
+            id="arrow-head-static"
+            markerWidth="8"
+            markerHeight="8"
+            refX="7"
+            refY="4"
+            orient="auto"
+            markerUnits="strokeWidth"
+          >
+
+            <path
+              d="M 0 0 L 8 4 L 0 8 Z"
+              fill="#78AA7D"
+            />
+
+          </marker>
+
+
+          <marker
+            id="arrow-head-dynamic"
+            markerWidth="8"
+            markerHeight="8"
+            refX="7"
+            refY="4"
+            orient="auto"
+            markerUnits="strokeWidth"
+          >
+
+            <path
+              d="M 0 0 L 8 4 L 0 8 Z"
+              fill="#C9856B"
+            />
+
+          </marker>
+
+
+          <marker
+            id="arrow-head-floor"
+            markerWidth="8"
+            markerHeight="8"
+            refX="7"
+            refY="4"
+            orient="auto"
+            markerUnits="strokeWidth"
+          >
+
+            <path
+              d="M 0 0 L 8 4 L 0 8 Z"
+              fill="#C99A4B"
+            />
+
+          </marker>
+
+
+          <marker
+            id="arrow-head-device"
+            markerWidth="8"
+            markerHeight="8"
+            refX="7"
+            refY="4"
+            orient="auto"
+            markerUnits="strokeWidth"
+          >
+
+            <path
+              d="M 0 0 L 8 4 L 0 8 Z"
+              fill="#68A5BA"
             />
 
           </marker>
