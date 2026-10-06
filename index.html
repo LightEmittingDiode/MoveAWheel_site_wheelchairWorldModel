@@ -1287,7 +1287,43 @@
 
 
 
-    function clearHighlight() {
+    let pinnedNodeId =
+      null;
+
+
+    function updatePressedStates() {
+
+      diagram
+        .querySelectorAll(
+          ".diagram-node[id]"
+        )
+        .forEach(
+          node => {
+
+            node.setAttribute(
+              "aria-pressed",
+              String(
+                node.id ===
+                  pinnedNodeId
+              )
+            );
+
+          }
+        );
+
+    }
+
+
+    function clearHighlight(
+      preservePinned = false
+    ) {
+
+      if (!preservePinned) {
+
+        pinnedNodeId =
+          null;
+
+      }
 
       diagram.classList.remove(
         "focus-mode"
@@ -1324,6 +1360,123 @@
           }
         );
 
+
+      updatePressedStates();
+
+    }
+
+
+    function highlightNode(
+      node
+    ) {
+
+      clearHighlight(true);
+
+
+      diagram.classList.add(
+        "focus-mode"
+      );
+
+
+      node.classList.add(
+        "active",
+        "origin"
+      );
+
+
+      connections.forEach(
+        (
+          connection,
+          index
+        ) => {
+
+          if (
+            connection.from !==
+              node.id &&
+            connection.to !==
+              node.id
+          ) {
+
+            return;
+
+          }
+
+
+          const source =
+            document.getElementById(
+              connection.from
+            );
+
+
+          const target =
+            document.getElementById(
+              connection.to
+            );
+
+
+          if (source) {
+
+            source.classList.add(
+              "active"
+            );
+
+          }
+
+
+          if (target) {
+
+            target.classList.add(
+              "active"
+            );
+
+          }
+
+
+          const path =
+            edgeLayer.querySelector(
+              `.connection-path[data-index="${index}"]`
+            );
+
+
+          if (path) {
+
+            path.classList.add(
+              "active"
+            );
+
+          }
+
+        }
+      );
+
+
+      updatePressedStates();
+
+    }
+
+
+    function togglePinnedHighlight(
+      node
+    ) {
+
+      if (
+        pinnedNodeId ===
+          node.id
+      ) {
+
+        clearHighlight();
+
+        return;
+
+      }
+
+
+      pinnedNodeId =
+        node.id;
+
+
+      highlightNode(node);
+
     }
 
 
@@ -1339,88 +1492,32 @@
       nodes.forEach(
         node => {
 
+          node.setAttribute(
+            "role",
+            "button"
+          );
+
+
+          node.setAttribute(
+            "tabindex",
+            "0"
+          );
+
+
+          node.setAttribute(
+            "aria-pressed",
+            "false"
+          );
+
           node.addEventListener(
             "mouseenter",
             () => {
 
-              clearHighlight();
+              if (!pinnedNodeId) {
 
+                highlightNode(node);
 
-              diagram.classList.add(
-                "focus-mode"
-              );
-
-
-              node.classList.add(
-                "active",
-                "origin"
-              );
-
-
-              connections.forEach(
-                (
-                  connection,
-                  index
-                ) => {
-
-                  if (
-                    connection.from !==
-                      node.id &&
-                    connection.to !==
-                      node.id
-                  ) {
-
-                    return;
-
-                  }
-
-
-                  const source =
-                    document.getElementById(
-                      connection.from
-                    );
-
-
-                  const target =
-                    document.getElementById(
-                      connection.to
-                    );
-
-
-                  if (source) {
-
-                    source.classList.add(
-                      "active"
-                    );
-
-                  }
-
-
-                  if (target) {
-
-                    target.classList.add(
-                      "active"
-                    );
-
-                  }
-
-
-                  const path =
-                    edgeLayer.querySelector(
-                      `.connection-path[data-index="${index}"]`
-                    );
-
-
-                  if (path) {
-
-                    path.classList.add(
-                      "active"
-                    );
-
-                  }
-
-                }
-              );
+              }
 
             }
           );
@@ -1428,7 +1525,54 @@
 
           node.addEventListener(
             "mouseleave",
-            clearHighlight
+            () => {
+
+              if (!pinnedNodeId) {
+
+                clearHighlight();
+
+              }
+
+            }
+          );
+
+
+          node.addEventListener(
+            "click",
+            () => {
+
+              togglePinnedHighlight(
+                node
+              );
+
+            }
+          );
+
+
+          node.addEventListener(
+            "keydown",
+            event => {
+
+              if (
+                event.key !==
+                  "Enter" &&
+                event.key !==
+                  " "
+              ) {
+
+                return;
+
+              }
+
+
+              event.preventDefault();
+
+
+              togglePinnedHighlight(
+                node
+              );
+
+            }
           );
 
         }
