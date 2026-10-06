@@ -145,6 +145,8 @@
         "GNSS",
       "환경 센서(BME)":
         "Environmental Sensor(BME)",
+      "비식별화":
+        "De-identification",
       "장애물 탐지":
         "Obstacle Detection",
       "보행로 분할":
@@ -436,32 +438,42 @@
 
       {
         from: "s-camera",
-        to: "p-vision",
-        fromX: 0.16,
-        toX: 0.30,
+        to: "p-anonymization",
+        fromX: 0.08,
+        toX: 0.50,
         route: "lane",
         lane: 0,
-        laneCount: 10
+        laneCount: 11
+      },
+
+      {
+        from: "s-camera",
+        to: "p-vision",
+        fromX: 0.28,
+        toX: 0.30,
+        route: "lane",
+        lane: 1,
+        laneCount: 11
       },
 
       {
         from: "s-camera",
         to: "p-vl",
-        fromX: 0.40,
+        fromX: 0.50,
         toX: 0.30,
         route: "lane",
-        lane: 1,
-        laneCount: 10
+        lane: 2,
+        laneCount: 11
       },
 
       {
         from: "s-camera",
         to: "p-step",
-        fromX: 0.74,
+        fromX: 0.82,
         toX: 0.30,
         route: "lane",
-        lane: 2,
-        laneCount: 10
+        lane: 3,
+        laneCount: 11
       },
 
       {
@@ -470,8 +482,8 @@
         fromX: 0.52,
         toX: 0.72,
         route: "lane",
-        lane: 3,
-        laneCount: 10
+        lane: 4,
+        laneCount: 11
       },
 
       {
@@ -480,8 +492,8 @@
         fromX: 0.20,
         toX: 0.28,
         route: "lane",
-        lane: 4,
-        laneCount: 10
+        lane: 5,
+        laneCount: 11
       },
 
       {
@@ -490,8 +502,8 @@
         fromX: 0.46,
         toX: 0.72,
         route: "lane",
-        lane: 5,
-        laneCount: 10
+        lane: 6,
+        laneCount: 11
       },
 
       {
@@ -500,8 +512,8 @@
         fromX: 0.78,
         toX: 0.28,
         route: "lane",
-        lane: 6,
-        laneCount: 10
+        lane: 7,
+        laneCount: 11
       },
 
       {
@@ -510,8 +522,8 @@
         fromX: 0.28,
         toX: 0.30,
         route: "lane",
-        lane: 7,
-        laneCount: 10
+        lane: 8,
+        laneCount: 11
       },
 
       {
@@ -520,8 +532,8 @@
         fromX: 0.72,
         toX: 0.72,
         route: "lane",
-        lane: 8,
-        laneCount: 10
+        lane: 9,
+        laneCount: 11
       },
 
       {
@@ -530,8 +542,8 @@
         fromX: 0.50,
         toX: 0.60,
         route: "lane",
-        lane: 9,
-        laneCount: 10
+        lane: 10,
+        laneCount: 11
       },
 
       {
@@ -586,9 +598,9 @@
 
 
       {
-        from: "p-vision",
+        from: "p-anonymization",
         to: "f-static",
-        fromX: 0.15,
+        fromX: 0.30,
         toX: 0.20,
         route: "lane",
         lane: 0,
@@ -596,9 +608,9 @@
       },
 
       {
-        from: "p-vision",
+        from: "p-anonymization",
         to: "f-dynamic",
-        fromX: 0.45,
+        fromX: 0.70,
         toX: 0.16,
         route: "lane",
         lane: 1,
@@ -2110,13 +2122,16 @@
 
       width: 100%;
 
+      min-width:
+        1741px;
+
       position:
         relative;
 
       padding:
         24px
         28px
-        60px;
+        0;
 
     }
 
@@ -2308,7 +2323,7 @@
       width: 100%;
 
       overflow-x:
-        auto;
+        visible;
 
     }
 
@@ -2320,7 +2335,7 @@
         relative;
 
       width:
-        1500px;
+        1685px;
 
       margin:
         0 auto;
@@ -2728,7 +2743,7 @@
         grid;
 
       grid-template-columns:
-        repeat(8, 1fr);
+        repeat(9, 1fr);
 
       gap:
         7px;
@@ -3312,12 +3327,21 @@
 
           <div
             class="diagram-node perception-node"
-            id="p-vision"
+            id="p-anonymization"
           >
 
             <strong>
-              장애물 탐지
+              비식별화
             </strong>
+
+          </div>
+
+
+
+          <div
+            class="diagram-node perception-node"
+            id="p-vision"
+          >
 
             <strong>
               보행로 분할
@@ -3343,6 +3367,10 @@
             class="diagram-node perception-node"
             id="p-vl"
           >
+
+            <strong>
+              장애물 탐지
+            </strong>
 
             <strong>
               장애물 좌표 · 거리
