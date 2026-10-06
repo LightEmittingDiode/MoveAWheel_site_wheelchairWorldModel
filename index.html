@@ -76,6 +76,16 @@
       );
 
 
+    const diagramScroll =
+      document.querySelector(
+        ".diagram-scroll"
+      );
+
+
+    let diagramScale =
+      1;
+
+
     const edgeLayer =
       document.getElementById(
         "edge-layer"
@@ -417,7 +427,13 @@
 
 
       requestAnimationFrame(
-        drawConnections
+        () => {
+
+          drawConnections();
+
+          fitDiagram();
+
+        }
       );
 
     }
@@ -871,6 +887,31 @@
 
 
 
+    function fitDiagram() {
+
+      const availableWidth =
+        diagramScroll.clientWidth;
+
+
+      diagramScale =
+        Math.min(
+          1,
+          availableWidth /
+            diagram.offsetWidth
+        );
+
+
+      diagram.style.transform =
+        `scale(${diagramScale})`;
+
+
+      diagramScroll.style.height =
+        `${diagram.offsetHeight * diagramScale}px`;
+
+    }
+
+
+
     function getRect(
       element
     ) {
@@ -886,26 +927,40 @@
       return {
 
         left:
-          rect.left -
-          base.left,
+          (
+            rect.left -
+            base.left
+          ) /
+          diagramScale,
 
         right:
-          rect.right -
-          base.left,
+          (
+            rect.right -
+            base.left
+          ) /
+          diagramScale,
 
         top:
-          rect.top -
-          base.top,
+          (
+            rect.top -
+            base.top
+          ) /
+          diagramScale,
 
         bottom:
-          rect.bottom -
-          base.top,
+          (
+            rect.bottom -
+            base.top
+          ) /
+          diagramScale,
 
         width:
-          rect.width,
+          rect.width /
+          diagramScale,
 
         height:
-          rect.height
+          rect.height /
+          diagramScale
 
       };
 
@@ -1992,7 +2047,13 @@
 
         resizeTimer =
           setTimeout(
-            drawConnections,
+            () => {
+
+              fitDiagram();
+
+              drawConnections();
+
+            },
             80
           );
 
@@ -2056,6 +2117,8 @@
 
                 drawConnections();
 
+                fitDiagram();
+
                 enableHighlighting();
 
               }
@@ -2070,7 +2133,13 @@
             () => {
 
               requestAnimationFrame(
-                drawConnections
+                () => {
+
+                  drawConnections();
+
+                  fitDiagram();
+
+                }
               );
 
             }
@@ -2099,6 +2168,7 @@
     body {
       width: 100%;
       margin: 0;
+      overflow-x: hidden;
     }
 
 
@@ -2121,9 +2191,6 @@
     .page {
 
       width: 100%;
-
-      min-width:
-        1741px;
 
       position:
         relative;
@@ -2323,7 +2390,7 @@
       width: 100%;
 
       overflow-x:
-        visible;
+        hidden;
 
     }
 
@@ -2339,6 +2406,9 @@
 
       margin:
         0 auto;
+
+      transform-origin:
+        top left;
 
       padding:
         14px;
